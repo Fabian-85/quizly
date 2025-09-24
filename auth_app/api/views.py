@@ -148,6 +148,7 @@ class LogoutView(APIView):
         Receives: No body required, uses token from HttpOnly cookie.
         Returns: Blacklists the refresh token, deletes 'access' and 'refresh' cookies, and returns a success message.
     """
+    
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
