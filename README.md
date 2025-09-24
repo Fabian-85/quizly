@@ -31,7 +31,7 @@ GEMINI_API_KEY="your_api_key"
 ```
 
 
-5. **Install requirements**
+4. **Install requirements**
 ```bash
 pip install -r requirements.txt
 ```
@@ -42,7 +42,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-6.**Start the backend server**
+6. **Start the backend server**
 ```bash
 python manage.py runserver
 ```
