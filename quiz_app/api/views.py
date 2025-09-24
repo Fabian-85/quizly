@@ -128,8 +128,8 @@ class CreateQuizView(APIView):
         if not URL:
             return Response({"error":"URL is required"}, status=400)
             
-        VIDEO_PATH = downloader.download_audio_from_youtube(URL)
-        video_transcript = transcriber.transcribe_audio(VIDEO_PATH)
+        #VIDEO_PATH = downloader.download_audio_from_youtube(URL)
+        #video_transcript = transcriber.transcribe_audio(VIDEO_PATH)
         quiz = gemini_quiz_service.gerate_quiz_from(video_transcript)
         quiz['video_url'] = URL
 
