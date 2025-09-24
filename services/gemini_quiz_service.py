@@ -31,6 +31,13 @@ Requirements:
 
 def gerate_quiz_from(video_transcript):
      
+     """
+     Generate a quiz from the provided video transcript using Gemini API.
+     
+      - video_transcript: The transcript of the video as a string.
+      - Returns: A dictionary containing the quiz data in the specified JSON format.
+     """
+     
      try:
        client = genai.Client()
        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt + "\n\n" + video_transcript, config=types.GenerateContentConfig(response_mime_type="application/json"))

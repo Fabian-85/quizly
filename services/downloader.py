@@ -9,6 +9,13 @@ ydl_opts = {
 
 def download_audio_from_youtube(url):
 
+    """
+    Download audio from a YouTube video URL using yt-dlp.
+
+    - url: The YouTube video URL.
+    - Returns: The file path to the downloaded audio file.
+    """
+
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)

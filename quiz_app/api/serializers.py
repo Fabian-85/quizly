@@ -5,6 +5,14 @@ from quiz_app.models import Quiz, Question
 
 class QuestionSerializer(serializers.ModelSerializer):
 
+    """
+    Serializer for Question model with validation for question options and answer.
+
+    Methods:
+        - validate_question_options: Ensures exactly 4 distinct options.
+        - validate: Ensures the answer is one of the options.
+    """
+
     question_options = serializers.ListField(
         child=serializers.CharField(max_length=255, allow_blank=False),
         min_length=4, max_length=4
@@ -29,7 +37,14 @@ class QuestionSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class QuizSerializer(serializers.ModelSerializer):
+class CreateQuizSerializer(serializers.ModelSerializer):
+
+    """
+    Serializer for creating a Quiz with nested questions.
+
+    Method:
+        - create: Handles creation of Quiz and associated Questions.
+    """
 
     questions = QuestionSerializer(many=True)
     
@@ -49,7 +64,12 @@ class QuizSerializer(serializers.ModelSerializer):
                 Question.objects.create(quiz=quiz, **question_data)
         return quiz
     
-class SingleQuizSerializer(serializers.ModelSerializer):
+class QuizSerializer(serializers.ModelSerializer):
+
+    """
+    Serializer for Quiz model with nested questions (read-only) for retrieving all quizzes that user are created
+    and retrieving, updatung and deleting a single offer.
+    """
 
     questions = QuestionSerializer(many=True, read_only=True)
     
