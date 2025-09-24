@@ -124,11 +124,14 @@ class CreateQuizView(APIView):
 
 
     def post(self, request):
-        #URL = request.data.get('url')
-        #VIDEO_PATH = downloader.download_audio_from_youtube(URL)
-        #video_transcript = transcriber.transcribe_audio(VIDEO_PATH)
-        #quiz = gemini_quiz_service.gerate_quiz_from(video_transcript)
-        #quiz['video_url'] = URL
+        URL = request.data.get('url',None)
+        if not URL:
+            return Response({"error":"URL is required"}, status=400)
+            
+        VIDEO_PATH = downloader.download_audio_from_youtube(URL)
+        video_transcript = transcriber.transcribe_audio(VIDEO_PATH)
+        quiz = gemini_quiz_service.gerate_quiz_from(video_transcript)
+        quiz['video_url'] = URL
 
          
         serializer = QuizSerializer(data=quiz, context={'request': request})
@@ -137,8 +140,17 @@ class CreateQuizView(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=400)
-    
+        
 
+class GetAllQuizzesView(generics.ListAPIView):
+
+    permission_classes = [IsAuthenticated]
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    
+    def get_queryset(self):
+        return Quiz.objects.filter(user=self.request.user)
+    
 class SingleQuizView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [IsAuthenticated,IsOwner]
