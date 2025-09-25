@@ -35,7 +35,7 @@ class CreateQuizView(APIView):
         try:
             quiz = quiz_service.create_quiz_from_video_url(URL)
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            return Response({"error": str(e)}, status=400)
 
         serializer = CreateQuizSerializer(data=quiz, context={'request': request})
         serializer.is_valid(raise_exception=True)
