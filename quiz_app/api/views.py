@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics,mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -60,7 +60,7 @@ class GetAllQuizzesView(generics.ListAPIView):
     def get_queryset(self):
         return Quiz.objects.filter(user=self.request.user)
     
-class SingleQuizView(generics.RetrieveUpdateDestroyAPIView):
+class SingleQuizView(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
 
     """
     View to retrieve, update, or delete a single quiz by its ID.
@@ -69,7 +69,7 @@ class SingleQuizView(generics.RetrieveUpdateDestroyAPIView):
         - Returns: The quiz data for the specified ID.
         - Permissions: Only the owner of the quiz can access.
 
-    - PUT:
+    - PATCH:
         - Updates: The quiz data for the specified ID.
         - Only the fields 'title' and 'description' can be updated.
         - Permissions: Only the owner of the quiz can update.
@@ -82,6 +82,15 @@ class SingleQuizView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated,IsOwner]
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
     
  
