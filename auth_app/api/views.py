@@ -30,7 +30,7 @@ class RegistrationView(APIView):
         if serializer.is_valid():
             saved_account = serializer.save()
             data = {"detail": "User created successfully!"}
-            return Response(data)
+            return Response(data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -53,12 +53,12 @@ class LoginView(TokenObtainPairView):
     def post(self, request):
 
         serializer = self.get_serializer(data=request.data)
-
         try:
             serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0]) from e
+        except Exception as e:
+           return Response({'error': 'Invalid Login Data'}, status=status.HTTP_401_UNAUTHORIZED)
 
+    
         acess = serializer.validated_data.get('access')
         refresh = serializer.validated_data.get('refresh')
         user = serializer.user
@@ -113,13 +113,13 @@ class RefreshTokenView(TokenRefreshView):
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
         if refresh_token is None:
-            return Response({"detail": "Refresh token not provided."},status=status.HTTP_400_BAD_REQUEST )
+            return Response({"detail": "Refresh token not provided."},status=status.HTTP_401_UNAUTHORIZED)
         serializer = self.get_serializer(data={'refresh': refresh_token})
 
         try:
             serializer.is_valid(raise_exception=True)
         except Exception as e:
-           return Response({'error': 'Invalid refresh token'}, status=status.HTTP_400_BAD_REQUEST)
+           return Response({'error': 'Invalid refresh token'}, status=status.HTTP_401_UNAUTHORIZED)
 
         acess = serializer.validated_data.get('access')
 
@@ -157,7 +157,6 @@ class LogoutView(APIView):
             return Response({"detail": "Refresh token not provided."},status=status.HTTP_400_BAD_REQUEST )
         token = RefreshToken(refresh_token)
         token.blacklist()
-        print(refresh_token)
         response = Response({"detail": "Log-Out successfully! All Tokens will be deleted. Refresh token is now invalid."}, status=status.HTTP_200_OK)
         response.delete_cookie('refresh_token')
         response.delete_cookie('access_token')
