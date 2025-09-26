@@ -5,6 +5,8 @@ ydl_opts = {
         "outtmpl": "./audio/%(id)s.%(ext)s",
         "quiet": True,
         "noplaylist": True,
+        "no_warnings": True,
+         "extractor_args": {"youtube": {"player_client": ["android"]}},
     }
 
 def download_audio_from_youtube(url):
