@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'auth_app',
     'quiz_app',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -66,15 +66,15 @@ MIDDLEWARE = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-  'http://127.0.0.1:5500',
-  'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-  'http://127.0.0.1:5500',
-  'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
 
 ]
 
@@ -152,10 +152,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'auth_app.api.authentication.CookieJWTAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
 }
-
 
 
 SIMPLE_JWT = {
