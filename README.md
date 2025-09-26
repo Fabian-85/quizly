@@ -48,6 +48,102 @@ python manage.py runserver
 ```
 ---
 
+
+## API Endpoints
+
+### Authentication
+
+  <details>
+  <summary><strong>POST</strong> <code>/api/register/</code></summary>
+   
+  **Request Body:**
+  
+  ```json
+  {
+    "username": "your_username",
+    "password": "your_password",
+    "confirmed_password": "your_confirmed_password",
+    "email": "your_email@example.com"
+  }
+  ```
+  </details>
+
+  <details>
+  <summary><strong>POST</strong> <code>/api/login/</code></summary>
+   
+  **Request Body:**
+  
+  ```json
+  {
+  "username": "your_username",
+  "password": "your_password"
+  }
+  ```
+  </details>
+
+  <details>
+  <summary><strong>POST</strong> <code>/api/logout/</code></summary>
+   
+  **Request Body:**
+  
+  ```json
+  {
+
+  }
+  ```
+  </details>
+
+   <details>
+  <summary><strong>POST</strong> <code>/api/token/refresh/</code></summary>
+   
+  **Request Body**
+  
+  ```json
+  {
+
+  }
+  ```
+  </details>
+ 
+### Quiz Management
+
+<details>
+  <summary><strong>POST</strong> <code>/api/createQuiz/</code></summary>
+   
+  **Request Body:**
+  
+  ```json
+  {
+  "url": "https://www.youtube.com/watch?v=example"
+  }
+  ```
+ </details>
+
+<details>
+  <summary><strong>GET</strong> <code>/api/quizzes/</code></summary>
+ </details>
+
+ <details>
+  <summary><strong>GET</strong> <code>/api/quizzes/{id}/</code></summary>
+ </details>
+
+ <details>
+  <summary><strong>PATCH</strong> <code>/api/quizzes/{id}z/</code></summary>
+   
+  **Request Body:**
+  
+  ```json
+ {
+  "title": "Updated Title",
+  "description:"Updated Description"
+}
+  ```
+ </details>
+
+  <details>
+  <summary><strong>DELETE</strong> <code>/api/quizzes/{id}/</code></summary>
+ </details>
+
 ## Frontend-Setup
 
 1. Open the frontend quizly project in a editor e.g. Visual Studio Code
