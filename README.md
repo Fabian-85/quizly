@@ -1,7 +1,35 @@
 # Quizly Backend Project
 
+Quizly is a quiz genration application that transforms YouTube videos into quizzes. It downloads audio with yt-dlp, transcribes it using Whisper, and generates a 10-question multiple-choice quiz via Google Gemini. 
 
-## Backend-Setup
+## Features
+- User authentication with JWT Token
+- Download audio from YouTube via yt-dlp
+- Transcription youtube video with Whisper AI (ffmpeg required)
+- Quiz generation using Google Gemini AI
+- CRUD for your own quizzes (only owner can update/delete)
+- Update allows title & description only (questions are immutable)
+
+## Technology Stack
+- Django, Django REST Framework
+- yt-dlp (audio download)
+- AI Whisper (speech-to-text)
+- Google Gemini gemini-2.5-flash
+- Authentication JWT (JSON Web Token) and HTTP-Only-COOKIES
+- Database: SQLite (default)
+
+
+## Backend-Setup Introduction
+
+### Prerequisites
+- Python (3.10+ recommended) and pip
+
+- ffmpeg installed and on your PATH <br> 
+   Check: ffmpeg -version
+
+- A Google Gemini API key (set GOOGLE_API_KEY)
+
+### Setup
 
 1. **Clone the repository and navigate to this folder in your editor e.g Visual Studio Code**
 ```bash
