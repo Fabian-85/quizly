@@ -11,10 +11,11 @@ class LoginTests(APITestCase):
         self.user = User.objects.create_user(
             username='Fabian', email='fabian@mail.de', password='11111111')
         url = reverse('login')
-        response = self.client.post(url, {
+        self.response = self.client.post(url, {
             'username': 'Fabian',
             'password': '11111111'
         })
+        
 
     def test_logout_with_correct_credentials(self):
         access = AccessToken.for_user(self.user)
@@ -24,6 +25,14 @@ class LoginTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_logout_with_wrong_credentials(self):
+        self.response.set_cookie(
+            key='access_token',
+            value="aaaaaaaa",
+            httponly=True,
+            secure=True,
+            samesite='Lax',
+        )
+
         url = reverse('logout')
         response = self.client.post(url, {})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

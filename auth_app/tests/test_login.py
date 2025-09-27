@@ -27,7 +27,7 @@ class LoginTests(APITestCase):
             'username': 'Fabian',
             'password': 'testuser'
         })
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertNotIn("access_token", response.cookies)
         self.assertNotIn("refresh_token", response.cookies)
 
@@ -37,6 +37,6 @@ class LoginTests(APITestCase):
             'username': 'Fabian123',
             'password': 'testuser'
         })
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertNotIn("access_token", response.cookies)
         self.assertNotIn("refresh_token", response.cookies)

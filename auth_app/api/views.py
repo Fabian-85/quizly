@@ -56,7 +56,7 @@ class LoginView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except Exception as e:
-           return Response({'error': 'Invalid Login Data'}, status=status.HTTP_401_UNAUTHORIZED)
+           return Response({'error': 'Invalid Login Data'}, status=status.HTTP_400_BAD_REQUEST)
 
     
         acess = serializer.validated_data.get('access')
